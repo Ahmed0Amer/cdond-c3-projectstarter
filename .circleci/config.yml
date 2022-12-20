@@ -105,7 +105,7 @@ jobs:
       - run:
           name: fornt-end scan
           command: |
-            cd forntend
+            cd frontend
             npm install
             npm audit --audit-level=critical
 
