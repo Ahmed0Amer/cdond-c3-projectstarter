@@ -1,7 +1,7 @@
 version: 2.1
 
 commands:
-  tar-gzip-Install:
+  tar-gzip-install:
     description: install tar & gzip
     steps:
       - run:
@@ -153,7 +153,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - tar-gzip-Install
+      - tar-gzip-install
       - run:
           name: Ensure back-end infrastructure exists
           command: |
