@@ -7,7 +7,7 @@ commands:
       - run:
           name: install tar & gzip
           command: |
-            yum install tar && yum install gzip
+            yum install -y tar && yum install -y  gzip
 
   # ansible_installtion:
   #   description: intsall ansible
