@@ -7,19 +7,19 @@ commands:
       - run:
         name: install aws cli
         command: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
   ansible_installtion:
     description: intsall ansible
     steps:
       - run:
         name: install ansible
         command: |
-        sudo apt-get update
-        sudo apt install software-properties-common
-        sudo apt-add-repository --yes --update ppa:ansible/ansible
-        sudo apt-get install ansible
+          sudo apt-get update
+          sudo apt install software-properties-common
+          sudo apt-add-repository --yes --update ppa:ansible/ansible
+          sudo apt-get install ansible
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
