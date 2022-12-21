@@ -7,6 +7,7 @@ commands:
   #     - run:
   #       name: install aws cli
   #       command: |
+  #         yum install curl && yum install unzip
   #         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
   #         unzip awscliv2.zip
   #         sudo ./aws/install
@@ -181,6 +182,12 @@ jobs:
             --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
             more .circleci/ansible/inventory.txt
+      - run:
+          name: on fail event
+          command: |
+            echo "FAILED...log below"
+            aws cloudformation describe-stack-events --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+          when: on_fail
 
       - persist_to_workspace:
           root: ~/
@@ -338,6 +345,7 @@ workflows:
            filters:
              branches:
                only: [master]
+              
       # - configure-infrastructure:
       #     requires: [deploy-infrastructure]
       # - run-migrations:
