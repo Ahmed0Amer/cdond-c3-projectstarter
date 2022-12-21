@@ -1,14 +1,13 @@
 version: 2.1
 
 commands:
-  tar_gzip_Install:
+  tar-gzip-Install:
     description: install tar & gzip
     steps:
       - run:
-        name: install tar & gzip
-        command: |
-
-          yum install tar && yum install gzip
+          name: install tar & gzip
+          command: |
+            yum install tar && yum install gzip
 
   # ansible_installtion:
   #   description: intsall ansible
