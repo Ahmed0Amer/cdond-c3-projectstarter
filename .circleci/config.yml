@@ -184,7 +184,7 @@ jobs:
           name: on fail event
           command: |
             echo "FAILED...log below"
-            aws cloudformation describe-stack-events --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} --output text"
+            aws cloudformation describe-stack-events --output text --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
             exit 1
 
           when: on_fail
