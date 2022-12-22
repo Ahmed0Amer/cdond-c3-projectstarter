@@ -242,7 +242,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node 
     steps:
       - checkout
       - awscli-install
@@ -252,7 +252,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            rm -rf node_modules && rm ./package-lock.json && npm install
+            tsc @tscfiles || echo done
             npm run migrations > migration_status
              
       - run:
