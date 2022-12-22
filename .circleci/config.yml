@@ -26,8 +26,9 @@ commands:
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt install -y nodejs
             sudo apt install molly-guard
-            sudo apt install pm-utils
+            sudo apt install -y pm-utils
             sudo apt update 
+            sudo apt -y upgrade 
             sudo pm install typescript -g
 
   ansible-installtion:
