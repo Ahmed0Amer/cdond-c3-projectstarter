@@ -249,9 +249,8 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            npm audit fix --force
             npm run migrations > LOG.txt
-            cat LOG.txt
-            cat /home/circleci/.npm/_logs/*-debug.log
       - run:
           name: on fail event
           command: |
