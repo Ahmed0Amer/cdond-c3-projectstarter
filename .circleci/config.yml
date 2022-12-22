@@ -250,9 +250,13 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            echo "audit fix +++++++++++++"
             npm audit fix --force
+            echo "npm install +++++++++++++"
             npm install 
+            echo "running build +++++++++++++++"
             npm run build
+            echo "running migration"
             npm run migrations > LOG.txt
       - run:
           name: on fail event
