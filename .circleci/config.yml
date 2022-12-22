@@ -9,16 +9,16 @@ commands:
           command: |
             yum install -y tar && yum install -y  gzip
 
-  # ansible_installtion:
-  #   description: intsall ansible
-  #   steps:
-  #     - run:
-  #       name: install ansible
-  #       command: |
-  #         sudo apt-get update
-  #         sudo apt install software-properties-common
-  #         sudo apt-add-repository --yes --update ppa:ansible/ansible
-  #         sudo apt-get install ansible
+  ansible-installtion:
+    description: intsall ansible
+    steps:
+      - run:
+          name: install ansible
+          command: |
+            sudo apt-get update
+            sudo apt install software-properties-common
+            sudo apt-add-repository --yes --update ppa:ansible/ansible
+            sudo apt-get install ansible
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -199,7 +199,28 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
       # Here's where you will add some code to rollback on failure      
-
+  configure-infrastructure:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - ansible-installtion
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          fingerprints: ["50:86:d2:c4:15:62:8f:d4:77:6b:50:c8:1e:74:e3:a8"]
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            # Your code here
+            exit 1
+      - run:
+          name: Configure server
+          command: |
+            # Your code here
+            exit 1
   # run-migrations:
   #   docker:
   #     # Docker image here that supports NodeJS
@@ -332,8 +353,8 @@ workflows:
              branches:
                only: [master]
               
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+           requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
