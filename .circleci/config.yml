@@ -76,7 +76,7 @@ commands:
 jobs:
   build-frontend:
     docker:
-      - image: circleci/node
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -93,7 +93,7 @@ jobs:
 
   build-backend:
     docker:
-       - image: circleci/node
+       - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -110,7 +110,7 @@ jobs:
 
   test-frontend:
     docker:
-      - image: circleci/node
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -124,7 +124,7 @@ jobs:
 
   test-backend:
     docker:
-      - image: circleci/node
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -138,7 +138,7 @@ jobs:
             
   scan-frontend:
     docker:
-      - image: circleci/node
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -250,13 +250,6 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            echo "audit fix +++++++++++++"
-            npm audit fix --force
-            echo "npm install +++++++++++++"
-            npm install 
-            echo "running build +++++++++++++++"
-            npm run build
-            echo "running migration"
             npm run migrations > LOG.txt
       - run:
           name: on fail event
