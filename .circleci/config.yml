@@ -253,7 +253,6 @@ jobs:
             npm audit fix --force
             npm install 
             npm run build
-            sudo npm i -g pm2
             npm run migrations > LOG.txt
       - run:
           name: on fail event
