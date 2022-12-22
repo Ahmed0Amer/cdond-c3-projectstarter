@@ -235,7 +235,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - aws
+      - awscli-install
       - run:
           name: Run migrations
           command: |
