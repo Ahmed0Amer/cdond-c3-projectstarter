@@ -249,10 +249,9 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm cache clean --force
-            rm -rf node_modules
-            npm install 
             npm run migrations > LOG.txt
+            cat LOG.txt
+            cat /home/circleci/.npm/_logs/*-debug.log
       - run:
           name: Send migration kvdb
           command: |
