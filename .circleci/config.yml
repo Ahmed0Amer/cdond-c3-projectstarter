@@ -17,6 +17,14 @@ commands:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
+  nodejs-install:
+    description: install nodejs 14
+    steps:
+      - run:
+          name: install node js 14.x
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            sudo apt install -y nodejs
 
   ansible-installtion:
     description: intsall ansible
@@ -41,9 +49,9 @@ commands:
           when: on_fail
           command: |
             
-            aws cloudformation delete-stack --stack-name udapeople-backend―<<parameters.Workflow_ID>>
-            aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
-            aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.Workflow_ID>>
+            aws cloudformation delete-stack --stack-name udapeople-backend―<< parameters.Workflow_ID >>
+            aws s3 rm s3://udapeople-<< parameters.Workflow_ID >> --recursive
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
@@ -241,6 +249,8 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            npm cache clean --force
+            rm -rf node_modules
             npm install 
             npm run migrations > LOG.txt
       - run:
@@ -254,26 +264,39 @@ jobs:
       
      # Here's where you will add some code to rollback on failure      
 
-  # deploy-frontend:
-  #   docker:
-  #     # Docker image here that supports AWS CLI
-  #   steps:
-  #     # Checkout code from git
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Get backend url
-  #         command: |
-  #           # your code here
-  #           export API_URL="http://${BACKEND_IP}:3030"
-  #           echo "${API_URL}"
-  #     - run:
-  #         name: Deploy frontend objects
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure      
+  deploy-frontend:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - awscli-install
+      - nodejs-install
+      - restore_cache:
+          keys: [forntend-deps]
+      - run:
+          name: Install dependencies
+          command: |
+            cd frontend
+            npm install
+      - run:
+          name: Get backend url
+          command: |
+            BACKEND PUBLIC_IP=$(aws ec2 describe-instances \
+            --filters "Name=tag: Name, Values-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --query 'Reservations [*]. Instances [*]. Public IpAddress' \
+            --output text)
+            export API_URL="http://${BACKEND_IP}:3030" >> frontend/.evn
+            echo "${API_URL}"
+        
+      - run:
+          name: Deploy frontend objects
+          command: |
+            cd frontend
+            npm run build
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      # Here's where you will add some code to rollback on failure
+      - destroy-environment
+      - revert-migrations    
                     
   # deploy-backend:
   #   docker:
@@ -373,8 +396,8 @@ workflows:
            requires: [deploy-infrastructure]
       - run-migrations:
            requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
+      - deploy-frontend:
+           requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
