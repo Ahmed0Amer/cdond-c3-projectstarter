@@ -250,8 +250,9 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            npm install
             npm run migrations > migration_status
-            npm install 
+             
       - run:
           name: on fail event
           command: |
