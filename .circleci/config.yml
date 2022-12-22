@@ -18,14 +18,14 @@ commands:
             unzip awscliv2.zip
             sudo ./aws/install
   nodejs-install:
-    description: install nodejs 14
+    description: install nodejs 13
     steps:
       - run:
-          name: install node js 14.x
+          name: install node js 13.x
           command: |
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt install -y nodejs
-            npm install typescript -g
+            sudo pm install typescript -g
 
   ansible-installtion:
     description: intsall ansible
@@ -253,8 +253,8 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            tsc @tscfiles || echo done
-            npm run migrations > migration_status
+            sudo tsc @tscfiles || echo done
+            sudo npm run migrations > migration_status
              
       - run:
           name: on fail event
