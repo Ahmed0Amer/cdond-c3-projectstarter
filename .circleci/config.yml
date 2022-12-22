@@ -12,7 +12,7 @@ commands:
     description: install AWS CLI v2
     steps:
       - run:
-          name: install tar & gzip
+          name: aws cli installation
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
@@ -25,6 +25,7 @@ commands:
           command: |
             curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
             sudo apt install -y nodejs
+            npm install typescript -g
 
   ansible-installtion:
     description: intsall ansible
