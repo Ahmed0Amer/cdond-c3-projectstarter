@@ -251,6 +251,7 @@ jobs:
           command: |
             cd backend
             npm run migrations > migration_status
+            ls 
              
       - run:
           name: on fail event
