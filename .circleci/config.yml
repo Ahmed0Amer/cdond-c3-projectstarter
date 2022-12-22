@@ -29,7 +29,6 @@ commands:
             sudo apt install -y pm-utils
             sudo apt update 
             sudo apt -y upgrade 
-            sudo pm install typescript -g
 
   ansible-installtion:
     description: intsall ansible
