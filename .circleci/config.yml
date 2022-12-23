@@ -260,7 +260,7 @@ jobs:
           command: |
             
             echo "FAILED...log below"
-            cat /home/circleci/.npm/_logs/*-debug.log
+            cat /root/.npm/_logs/*-debug.log
             cat LOG.txt
             
             exit 1
