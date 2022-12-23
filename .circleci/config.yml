@@ -252,8 +252,9 @@ jobs:
           command: |
             echo "Running migration"
             cd backend
-            sudo npm install 
-            sudo npm run migrations > migration_status.txt
+            npm remove -g typeorm
+            npm install 
+            npm run migrations > migration_status.txt
             cat migration_status.txt
              
       - run:
