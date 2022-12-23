@@ -25,11 +25,6 @@ commands:
           command: |
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt install -y nodejs
-            sudo apt install molly-guard
-            sudo apt install -y pm-utils
-            sudo apt update 
-            sudo apt -y upgrade 
-
   ansible-installtion:
     description: intsall ansible
     steps:
@@ -245,19 +240,20 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:12.16.3
+      - image: circleci/node:13.8.0
 
     steps:
       - checkout
       - awscli-install
-      - attach_workspace:
-          at: .
+
       - run:
           name: Run migrations
           command: |
+            echo "Running migration"
             cd backend
-            sudo tsc @tscfiles || echo done
-            sudo npm run migrations > migration_status
+            sudo npm install 
+            sudo npm run migrations > migration_status.txt
+            cat migration_status.txt
              
       - run:
           name: on fail event
