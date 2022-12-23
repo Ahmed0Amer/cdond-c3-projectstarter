@@ -63,7 +63,7 @@ commands:
           name: Revert migrations
           # Add when this will run
           command: |
-            SUCCESS=$(curl https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
+            SUCCESS=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
             if (( $SUCCESS == 1 ));
             then
               cd ~/project/backend
@@ -256,17 +256,7 @@ jobs:
             npm install 
             npm run migrations > migration_status.txt
             cat migration_status.txt
-             
-      - run:
-          name: on fail event
-          command: |
-            
-            echo "FAILED...log below"
-            cat sudo /root/.npm/_logs/*-debug.log
-            
-            exit 1
 
-          when: on_fail
       - run:
           name: Send migration kvdb
           command: |
@@ -298,10 +288,10 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            BACKEND PUBLIC_IP=$(aws ec2 describe-instances \
-            --filters "Name=tag: Name, Values-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            --query 'Reservations [*]. Instances [*]. Public IpAddress' \
-            --output text)
+            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
             export API_URL="http://${BACKEND_IP}:3030" >> frontend/.evn
             echo "${API_URL}"
         
