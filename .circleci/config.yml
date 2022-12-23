@@ -261,8 +261,7 @@ jobs:
           command: |
             
             echo "FAILED...log below"
-            cat /root/.npm/_logs/*-debug.log
-            cat LOG.txt
+            cat sudo /root/.npm/_logs/*-debug.log
             
             exit 1
 
