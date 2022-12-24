@@ -7,7 +7,7 @@ commands:
       - run:
           name: install tar & gzip
           command: |
-            yum install -y tar && yum install -y  gzip
+            sudo apt-get install -y tar && sudo  install -y  gzip
   awscli-install:
     description: install AWS CLI v2
     steps:
