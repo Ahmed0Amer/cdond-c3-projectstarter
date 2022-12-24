@@ -43,8 +43,8 @@ commands:
           command: |
             sudo apt-get install software-properties-common
             sudo add-apt-repository ppa:deadsnakes/ppa
-            sudo apt-get update
-            sudo apt install python3.8
+            sudo apt-get -y update
+            sudo apt install -y  python3.8
           
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
