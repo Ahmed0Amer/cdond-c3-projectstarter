@@ -372,7 +372,7 @@ jobs:
       - run:
           name: Backend smoke test
           command: |
-            apt-get install -y tar && apt-get install -y gzip 
+            sudo apt-get install -y tar && sudo apt-get install -y gzip 
       - run:
           name: Backend smoke test
           command: |
