@@ -345,7 +345,7 @@ jobs:
             npm run build
             tar -czf artifact.tar.gz dist/* package*
             cd ..
-            locate artifact*
+            ls -la 
             sudo chmod 777 ./backend/artifact.tar.gz
             cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
