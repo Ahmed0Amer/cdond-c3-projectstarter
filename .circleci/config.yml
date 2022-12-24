@@ -320,7 +320,7 @@ jobs:
       - checkout
       - python-installation
       - awscli-install
-      - ansible-installation
+      - ansible-instllation
       - nodejs-install
       
 
