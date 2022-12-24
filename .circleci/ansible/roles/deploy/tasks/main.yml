@@ -1,19 +1,17 @@
----
-- name: make DIR # this added because of that error
-  become: true
-#dest '/home/ubuntu/project' must be an existing dir"
-  file:
-    path: /home/ubuntu/web
-    state: directory
-    
-- name: Unarchive   
-  become: true
-  unarchive:  # this module copy to the remote machine and extract 
-    src: artifact.tar.gz
-    dest: /home/ubuntu/web
+- name: "Creates backend app directory"
+  file: 
+    path: ~/backendapp
+    state: directory 
 
-- name: "launch server"
-  become: true
+- name: "Unarchive backend files"
+  unarchive: 
+    src: artifact.tar.gz
+    dest: ~/backendapp
+
+- name: "Installing Node Dependencies"
+  shell: |
+      cd ~/backendapp
+      npm i 
 - name: "Executing Node app with PM2"
   shell: |
     cd ~/backendapp
@@ -21,9 +19,3 @@
     pm2 stop default
     pm2 start npm -- start
   register: execute_node
-
-# - name: "start up script"
-#   become: true
-#   shell: | # refered from  https://pm2.keymetrics.io/docs/usage/startup/
-#     sudo su -c "env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu"
-#     pm2 save --force
