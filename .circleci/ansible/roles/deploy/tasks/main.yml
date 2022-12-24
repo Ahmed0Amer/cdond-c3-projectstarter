@@ -12,6 +12,7 @@
   shell: |
       cd ~/backendapp
       npm i 
+      
 - name: "Executing Node app with PM2"
   shell: |
     cd ~/backendapp
