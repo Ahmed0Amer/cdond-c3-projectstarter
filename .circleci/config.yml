@@ -36,7 +36,7 @@ commands:
             sudo apt-add-repository --yes --update ppa:ansible/ansible
             sudo apt-get install ansible
   python-installtion:
-    description: intsall ansible
+    description: intsall python 3.10
     steps:
       - run:
           name: python install 
@@ -318,10 +318,11 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - python-installation
       - awscli-install
-      - ansible-install
+      - ansible-installation
       - nodejs-install
-      - python-install
+      
 
       - add_ssh_keys:
           fingerprints: ["b0:22:ee:2c:0f:39:95:80:1f:d6:97:62:b7:da:af:79"]
@@ -352,7 +353,7 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-            
+
       - destroy-environment
       - revert-migrations  
   # smoke-test:
@@ -438,8 +439,6 @@ workflows:
            requires: [configure-infrastructure]
       - deploy-frontend:
             requires: [run-migrations]
-
-          #  requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
       # - smoke-test:
