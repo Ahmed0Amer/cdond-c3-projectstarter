@@ -16,14 +16,6 @@
   shell: |
       cd /home/ubuntu/backendapp
       npm i 
-
-- name: "Executing Node app with PM2"
-  shell: |
-    cd /home/ubuntu/backendapp
-    npm install express
-    pm2 stop default
-    pm2 start npm -- start
-  register: execute_node
   args:
     chdir: /home/ubuntu/backendapp/dist
   environment:
@@ -37,3 +29,10 @@
      TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
      TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
      TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
+- name: "Executing Node app with PM2"
+  shell: |
+    cd /home/ubuntu/backendapp
+    npm install express
+    pm2 stop default
+    pm2 start npm -- start
+  register: execute_node
