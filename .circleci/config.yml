@@ -355,8 +355,8 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
             ansible-playbook -i inventory.txt deploy-backend.yml
 
-      # - destroy-environment
-      # - revert-migrations  
+      - destroy-environment
+      - revert-migrations  
   smoke-test:
     docker:
       - image: cimg/base:stable
@@ -395,8 +395,8 @@ jobs:
             else
               exit 1
             fi
-      # - destroy-environment
-      # - revert-migrations
+      - destroy-environment
+      - revert-migrations
 
   cloudfront-update:
     docker:
@@ -431,7 +431,7 @@ jobs:
             then 
               aws s3 rm "s3://udapeople-${OLD_WORKFLOW_ID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WORKFLOW_ID}"
-              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WORKFLOW_ID}" 
+              aws cloudformation delete-stack --stack-name "udapeople-frontends-${OLD_WORKFLOW_ID}" 
             fi
 
   cleanup:
